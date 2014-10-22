@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *urlTextField;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *webPageTitle;
 
 @end
 
@@ -37,6 +38,7 @@
         [self.webView loadRequest:urlRequest];
 
     }
+
     return YES;
 }
 
@@ -46,6 +48,9 @@
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityIndicator stopAnimating];
+
+    // our possible for number 14
+    //self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:self.urlTextField.];
 }
 
 - (IBAction)onBackButtonPressed:(id)sender {
