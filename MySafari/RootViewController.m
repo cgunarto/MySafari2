@@ -24,15 +24,19 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSURL *url = [NSURL URLWithString:textField.text];       NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSURL *url = [NSURL URLWithString:textField.text];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest: urlRequest];
 
 
-    if ( [textField.text containsString:@"http://"]) // checking if textfield has http:// in the beginning or not
+    if (![textField.text containsString:@"http://"]) // checking if textfield has http:// in the beginning or not
     {
+        NSString *formattedURL = [NSString stringWithFormat:@"http://%@", textField.text];
+        url = [NSURL URLWithString:formattedURL];
+        urlRequest = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:urlRequest];
 
     }
-
     return YES;
 }
 
@@ -74,5 +78,14 @@
 - (IBAction)onReloadButtonPressed:(id)sender {
     [self.webView reload];
 }
+
+- (IBAction)onPlusButtonPressed:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Hello!" message:@"Coming soon!!" preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:nil];
+//    UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+//    [alert addAction:okButton];
+
+}
+
 
 @end
