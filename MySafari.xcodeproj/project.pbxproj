@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4FB5ED5719F8555F00E0AF7C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5ED5619F8555F00E0AF7C /* main.m */; };
 		4FB5ED5A19F8555F00E0AF7C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5ED5919F8555F00E0AF7C /* AppDelegate.m */; };
-		4FB5ED5D19F8555F00E0AF7C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5ED5C19F8555F00E0AF7C /* ViewController.m */; };
+		4FB5ED5D19F8555F00E0AF7C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5ED5C19F8555F00E0AF7C /* RootViewController.m */; };
 		4FB5ED6019F8555F00E0AF7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5ED5E19F8555F00E0AF7C /* Main.storyboard */; };
 		4FB5ED6219F8555F00E0AF7C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5ED6119F8555F00E0AF7C /* Images.xcassets */; };
 		4FB5ED6519F8555F00E0AF7C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FB5ED6319F8555F00E0AF7C /* LaunchScreen.xib */; };
@@ -32,8 +32,8 @@
 		4FB5ED5619F8555F00E0AF7C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4FB5ED5819F8555F00E0AF7C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4FB5ED5919F8555F00E0AF7C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4FB5ED5B19F8555F00E0AF7C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4FB5ED5C19F8555F00E0AF7C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4FB5ED5B19F8555F00E0AF7C /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		4FB5ED5C19F8555F00E0AF7C /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		4FB5ED5F19F8555F00E0AF7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4FB5ED6119F8555F00E0AF7C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4FB5ED6419F8555F00E0AF7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -83,8 +83,8 @@
 			children = (
 				4FB5ED5819F8555F00E0AF7C /* AppDelegate.h */,
 				4FB5ED5919F8555F00E0AF7C /* AppDelegate.m */,
-				4FB5ED5B19F8555F00E0AF7C /* ViewController.h */,
-				4FB5ED5C19F8555F00E0AF7C /* ViewController.m */,
+				4FB5ED5B19F8555F00E0AF7C /* RootViewController.h */,
+				4FB5ED5C19F8555F00E0AF7C /* RootViewController.m */,
 				4FB5ED5E19F8555F00E0AF7C /* Main.storyboard */,
 				4FB5ED6119F8555F00E0AF7C /* Images.xcassets */,
 				4FB5ED6319F8555F00E0AF7C /* LaunchScreen.xib */,
@@ -219,7 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FB5ED5D19F8555F00E0AF7C /* ViewController.m in Sources */,
+				4FB5ED5D19F8555F00E0AF7C /* RootViewController.m in Sources */,
 				4FB5ED5A19F8555F00E0AF7C /* AppDelegate.m in Sources */,
 				4FB5ED5719F8555F00E0AF7C /* main.m in Sources */,
 			);
@@ -412,6 +412,7 @@
 				4FB5ED7619F8555F00E0AF7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4FB5ED7719F8555F00E0AF7C /* Build configuration list for PBXNativeTarget "MySafariTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +421,7 @@
 				4FB5ED7919F8555F00E0AF7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
