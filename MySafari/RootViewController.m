@@ -8,7 +8,7 @@
 
 #import "RootViewController.h"
 
-@interface RootViewController () <UIWebViewDelegate, UITextFieldDelegate>
+@interface RootViewController () <UIWebViewDelegate, UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *urlTextField;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.webView.scrollView.delegate = self;
+
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -49,8 +51,15 @@
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityIndicator stopAnimating];
 
-    // our possible for number 14
-    //self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:self.urlTextField.];
+    self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    self.urlTextField.alpha = 0.3;
+//}
+
+-(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
+    self.urlTextField.alpha = 0.5;
 }
 
 - (IBAction)onBackButtonPressed:(id)sender {
