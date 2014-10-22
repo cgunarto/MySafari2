@@ -24,9 +24,15 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSURL *url = [NSURL URLWithString:textField.text];  //number 4 - check later
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSURL *url = [NSURL URLWithString:textField.text];       NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest: urlRequest];
+
+
+    if ( [textField.text containsString:@"http://"]) // checking if textfield has http:// in the beginning or not
+    {
+
+    }
+
     return YES;
 }
 
@@ -39,9 +45,34 @@
 }
 
 - (IBAction)onBackButtonPressed:(id)sender {
-    [self.webView goBack];
+    if ([self.webView canGoBack])
+    {
+        [self.webView goBack];
+    }
+    else
+    {
+        // NOTHING RIGHT NOW
+    }
 }
 
+- (IBAction)onForwardButtonPressed:(id)sender
+{
+    if ([self.webView canGoForward])
+    {
+        [self.webView goForward];
+    }
+    else
+    {
+        // NOTHING RIGHT NOW
+    }
+}
 
+- (IBAction)onStopLoadingButtonPressed:(id)sender {
+    [self.webView stopLoading];
+}
+
+- (IBAction)onReloadButtonPressed:(id)sender {
+    [self.webView reload];
+}
 
 @end
