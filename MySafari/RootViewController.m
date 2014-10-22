@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *webPageTitle;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @end
 
@@ -22,7 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+
+    self.backButton.enabled = NO;
+    NSString *formattedURL = [NSString stringWithFormat:@"http://www.mobilemakers.co"];
+    NSURL *url= [NSURL URLWithString:formattedURL];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:urlRequest];
     self.webView.scrollView.delegate = self;
+
 
 }
 
@@ -41,6 +49,15 @@
 
     }
 
+    if ([self.webView canGoBack])
+    {
+           self.backButton.enabled = YES;
+    }
+    else
+    {
+           self.backButton.enabled = NO;
+    }
+
     return YES;
 }
 
@@ -54,12 +71,13 @@
     self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    self.urlTextField.alpha = 0.3;
-//}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.urlTextField.alpha = 0.3;
+}
 
--(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
-    self.urlTextField.alpha = 0.5;
+-(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    self.urlTextField.alpha = 1;
+    return YES;
 }
 
 - (IBAction)onBackButtonPressed:(id)sender {
@@ -69,7 +87,7 @@
     }
     else
     {
-        // NOTHING RIGHT NOW
+
     }
 }
 
