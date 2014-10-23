@@ -85,13 +85,21 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    self.urlTextField.alpha = 0.3;
+
+    CGFloat totalScroll = self.webView.frame.size.height - self.webView.bounds.size.height;
+
+    /* This is the current offset. */
+    CGFloat offset = - scrollView.contentOffset.y;
+
+    /* This is the percentage of the current offset / bottom offset. */
+    CGFloat percentage = offset / totalScroll;
+
+    /* When percentage = 0, the alpha should be 1 so we should flip the percentage. */
+    self.urlTextField.alpha = (1.f - percentage);
+
 }
 
--(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
-    self.urlTextField.alpha = 1;
-    return YES;
-}
+
 
 - (IBAction)onBackButtonPressed:(id)sender {
     if ([self.webView canGoBack])
