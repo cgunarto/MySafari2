@@ -13,7 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *urlTextField;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UILabel *webPageTitle;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 
@@ -21,49 +20,63 @@
 
 @implementation RootViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [self loadURL:@"http://www.mobilemakers.co"];
 
+    //setting the back button and forward button to be grayed out when opening up bc there is no back or fwd page yet
     self.backButton.enabled = NO;
     self.forwardButton.enabled = NO;
 
-    NSString *formattedURL = [NSString stringWithFormat:@"http://www.mobilemakers.co"];
-    NSURL *url= [NSURL URLWithString:formattedURL];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:urlRequest];
+    //setting the delegate of webView scrollview as itself ?
     self.webView.scrollView.delegate = self;
+
+    UIFont *font = [UIFont fontWithName:@"HiraKakuProN-W3" size:12];
+    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName, nil];
+    self.navigationController.navigationBar.titleTextAttributes = size;
 
 
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSURL *url = [NSURL URLWithString:textField.text];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest: urlRequest];
+// method for loadingURL to decrease repetition
+- (void) loadURL: (NSString *) loadURL
+{
+    NSURL *url = [NSURL URLWithString:loadURL];
+    NSURLRequest *requestURL = [NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:requestURL];
+}
 
 
-    if (![textField.text containsString:@"http://"]) // checking if textfield has http:// in the beginning or not
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self loadURL:textField.text];
+
+    // checking if textfield has http:// in the beginning or not
+    // if textfield.text string doesn't contain @"http://" then add it to the beginning
+    if (![textField.text containsString:@"http://"])
     {
         NSString *formattedURL = [NSString stringWithFormat:@"http://%@", textField.text];
-        url = [NSURL URLWithString:formattedURL];
-        urlRequest = [NSURLRequest requestWithURL:url];
-        [self.webView loadRequest:urlRequest];
+        [self loadURL:formattedURL];
 
     }
 
+    //get rid of keyboard when text field is entered
+    [textField resignFirstResponder];
     return YES;
 }
 
--(void)webViewDidStartLoad:(UIWebView *)webView {
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
     [self.activityIndicator startAnimating];
+
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView {
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
     [self.activityIndicator stopAnimating];
 
-    self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-
+    //making sure that the fwd and backward buttons are disabled when there are no corresponding web views
     if ([self.webView canGoBack])
     {
         self.backButton.enabled = YES;
@@ -82,33 +95,54 @@
         self.forwardButton.enabled = NO;
     }
 
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-    CGFloat totalScroll = self.webView.frame.size.height - self.webView.bounds.size.height;
-
-    /* This is the current offset. */
-    CGFloat offset = - scrollView.contentOffset.y;
-
-    /* This is the percentage of the current offset / bottom offset. */
-    CGFloat percentage = offset / totalScroll;
-
-    /* When percentage = 0, the alpha should be 1 so we should flip the percentage. */
-    self.urlTextField.alpha = (1.f - percentage);
+    //extracting the webpage document title and setting it to Nav Bar Controller into WebPage Title's text
+    self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 
 }
 
+//Alternative code 
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//
+//    CGFloat totalScroll = self.webView.frame.size.height - self.webView.bounds.size.height;
+//
+//    /* This is the current offset. */
+//    CGFloat offset = scrollView.contentOffset.y;
+//
+//    /* This is the percentage of the current offset / bottom offset. */
+//    CGFloat percentage = offset / totalScroll;
+//
+//    /* When percentage = 0, the alpha should be 1 so we should flip the percentage. */
+//    self.urlTextField.alpha = (1.f - percentage);
+//
+//}
 
-
-- (IBAction)onBackButtonPressed:(id)sender {
-    if ([self.webView canGoBack])
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < 30)
     {
-        [self.webView goBack];
+        [UIView animateWithDuration:.2 animations:^
+        {
+            self.urlTextField.alpha = 0.5;
+            self.urlTextField.frame = CGRectMake(self.urlTextField.frame.origin.x,70, self.urlTextField.frame.size.width, self.urlTextField.frame.size.height);}];
     }
     else
     {
-        //NOTHING RIGHT NOW
+        [UIView animateWithDuration:.2 animations:^
+        {
+            self.urlTextField.alpha = 0.5;
+            self.urlTextField.frame = CGRectMake(self.urlTextField.frame.origin.x, -30, self.urlTextField.frame.size.width, self.urlTextField.frame.size.height);}];
+        }
+}
+
+
+- (IBAction)onBackButtonPressed:(id)sender
+{
+    if ([self.webView canGoBack])
+    {
+        [self.webView goBack];
+        // set the URL as blank when button goes back
+        self.urlTextField.text = nil;
     }
 }
 
@@ -117,26 +151,28 @@
     if ([self.webView canGoForward])
     {
         [self.webView goForward];
-    }
-    else
-    {
-        // NOTHING RIGHT NOW
+        // set the URL as blank when button goes forward
+        self.urlTextField.text = nil;
     }
 }
 
-- (IBAction)onStopLoadingButtonPressed:(id)sender {
+- (IBAction)onStopLoadingButtonPressed:(id)sender
+{
     [self.webView stopLoading];
 }
 
-- (IBAction)onReloadButtonPressed:(id)sender {
+- (IBAction)onReloadButtonPressed:(id)sender
+{
     [self.webView reload];
 }
 
-- (IBAction)onPlusButtonPressed:(id)sender {
+- (IBAction)onPlusButtonPressed:(id)sender
+{
+    // create an alert with OK button when plus (thumbs up) button is pressed
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Hello!" message:@"Coming soon!!" preferredStyle:UIAlertControllerStyleAlert];
     [self presentViewController:alert animated:YES completion:nil];
-//    UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//    [alert addAction:okButton];
+    UIAlertAction *okButton = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:okButton];
 
 }
 
