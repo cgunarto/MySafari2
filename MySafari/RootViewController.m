@@ -25,11 +25,7 @@
     [super viewDidLoad];
     [self loadURL:@"http://www.mobilemakers.co"];
 
-    //setting the back button and forward button to be grayed out when opening up bc there is no back or fwd page yet
-    self.backButton.enabled = NO;
-    self.forwardButton.enabled = NO;
-
-    //setting the delegate of webView scrollview as itself ?
+    //setting this VC as the delegate of webView scrollview
     self.webView.scrollView.delegate = self;
 
     UIFont *font = [UIFont fontWithName:@"HiraKakuProN-W3" size:12];
@@ -52,9 +48,11 @@
 {
     [self loadURL:textField.text];
 
+
     // checking if textfield has http:// in the beginning or not
     // if textfield.text string doesn't contain @"http://" then add it to the beginning
-    if (![textField.text containsString:@"http://"])
+    if (![[textField.text lowercaseString] hasPrefix:@"http://"])
+
     {
         NSString *formattedURL = [NSString stringWithFormat:@"http://%@", textField.text];
         [self loadURL:formattedURL];
@@ -77,26 +75,14 @@
     [self.activityIndicator stopAnimating];
 
     //making sure that the fwd and backward buttons are disabled when there are no corresponding web views
-    if ([self.webView canGoBack])
-    {
-        self.backButton.enabled = YES;
-    }
-    else
-    {
-        self.backButton.enabled = NO;
-    }
+    self.backButton.enabled = self.webView.canGoBack;
+    self.forwardButton.enabled = self.webView.canGoForward;
 
-    if ([self.webView canGoForward])
-    {
-        self.forwardButton.enabled = YES;
-    }
-    else
-    {
-        self.forwardButton.enabled = NO;
-    }
 
     //extracting the webpage document title and setting it to Nav Bar Controller into WebPage Title's text
     self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+
+    //ADD a command that sets the URL title into the page's current title
 
 }
 
