@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *webPageTitle;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 
 @end
 
@@ -25,6 +26,8 @@
     // Do any additional setup after loading the view, typically from a nib.
 
     self.backButton.enabled = NO;
+    self.forwardButton.enabled = NO;
+
     NSString *formattedURL = [NSString stringWithFormat:@"http://www.mobilemakers.co"];
     NSURL *url= [NSURL URLWithString:formattedURL];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
@@ -49,15 +52,6 @@
 
     }
 
-    if ([self.webView canGoBack])
-    {
-           self.backButton.enabled = YES;
-    }
-    else
-    {
-           self.backButton.enabled = NO;
-    }
-
     return YES;
 }
 
@@ -69,6 +63,25 @@
     [self.activityIndicator stopAnimating];
 
     self.webPageTitle.text = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+
+    if ([self.webView canGoBack])
+    {
+        self.backButton.enabled = YES;
+    }
+    else
+    {
+        self.backButton.enabled = NO;
+    }
+
+    if ([self.webView canGoForward])
+    {
+        self.forwardButton.enabled = YES;
+    }
+    else
+    {
+        self.forwardButton.enabled = NO;
+    }
+
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -87,7 +100,7 @@
     }
     else
     {
-
+        //NOTHING RIGHT NOW
     }
 }
 
